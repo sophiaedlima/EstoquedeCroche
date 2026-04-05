@@ -40,7 +40,7 @@ function App() {
   const totalBaixoEstoque = materiais.filter((m) => m.statusEstoque === 'baixo').length;
   const totalEsgotados = materiais.filter((m) => m.statusEstoque === 'esgotado').length;
 
-  // Ação: usar material (reduz 50g/unidades)
+  // Ação: usar material (reduz 1 unidade/grama do estoque)
   function handleUsarMaterial(id: number) {
     setMateriais((prev) =>
       prev.map((m) => {
