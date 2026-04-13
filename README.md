@@ -23,20 +23,23 @@ npm run dev
 
 http://localhost:5173
 
+
+
 src/
 ├── components/
-│   ├── Navbar.tsx           Barra de navegação superior
-│   ├── FiltroSidebar.tsx    Barra lateral com filtros por categoria
-│   ├── Dashboard.tsx        Visão geral com contadores de estoque
-│   ├── CardMaterial.tsx     Card individual de cada material
-│   ├── ModalAdicionar.tsx   Modal para adicionar/editar material
-│   └── Rodape.tsx           Rodapé da aplicação
+│   ├── Navbar.tsx           #Barra de navegação superior
+│   ├── FiltroSidebar.tsx    #Barra lateral com filtros por categoria
+│   ├── Dashboard.tsx        #Visão geral com contadores de estoque
+│   ├── CardMaterial.tsx     #Card individual de cada material
+│   ├── ModalAdicionar.tsx   #Modal para adicionar/editar material
+│   └── Rodape.tsx           #Rodapé da aplicação
 ├── data/
-│   └── materiaisIniciais.ts  Dados iniciais de exemplo
+│   └── materiaisIniciais.ts  #Dados iniciais de exemplo
 ├── types/
-│   └── tipos.ts             Interfaces e tipos TypeScript
-├── App.tsx                  Componente principal
-└── main.tsx                 Entrada da aplicação
+│   └── tipos.ts             #Interfaces e tipos TypeScript
+├── App.tsx                  #Componente principal
+└── main.tsx                 #Entrada da aplicação
+
 
 - Fios — novelos de lã, linha de algodão, etc.
 - Agulhas — agulhas de crochê de diversos tamanhos
