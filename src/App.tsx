@@ -8,7 +8,6 @@ import { CardMaterial } from './components/CardMaterial';
 import { ModalAdicionar } from './components/ModalAdicionar';
 import { Rodape } from './components/Rodape';
 
-// Função auxiliar para calcular o status do estoque
 function calcularStatus(quantidade: number, quantidadeMinima: number): IMaterial['statusEstoque'] {
   if (quantidade === 0) return 'esgotado';
   if (quantidade < quantidadeMinima) return 'baixo';
@@ -21,7 +20,7 @@ function App() {
     return salvo ? JSON.parse(salvo) : materiaisIniciais;
   });
   const [filtroAtivo, setFiltroAtivo] = useState<TipoMaterial | 'todos'>('todos');
-  const [modalVisivel, setModalVisivel] = useState<boolean>(false);
+  const [modalVisivel, setModalVisivel] = useState(false);
   const [busca, setBusca] = useState('');
   const [materialEditando, setMaterialEditando] = useState<IMaterial | null>(null);
 
@@ -29,19 +28,15 @@ function App() {
     localStorage.setItem('estoquecroche_materiais', JSON.stringify(materiais));
   }, [materiais]);
 
-  // Lógica de filtro
   const materiaisFiltrados = materiais
     .filter((m) => filtroAtivo === 'todos' || m.tipo === filtroAtivo)
     .filter((m) => m.nome.toLowerCase().includes(busca.toLowerCase()));
 
-
-  // Contadores do Dashboard
   const totalMateriais = materiais.length;
   const totalOk = materiais.filter((m) => m.statusEstoque === 'ok').length;
   const totalBaixoEstoque = materiais.filter((m) => m.statusEstoque === 'baixo').length;
   const totalEsgotados = materiais.filter((m) => m.statusEstoque === 'esgotado').length;
 
-  // usar material (reduz 1 unidade do estoque)
   function handleUsarMaterial(id: number) {
     setMateriais((prev) =>
       prev.map((m) => {
@@ -52,7 +47,6 @@ function App() {
     );
   }
 
-  // repor estoque (adiciona unidades)
   function handleReporEstoque(id: number) {
     setMateriais((prev) =>
       prev.map((m) => {
@@ -63,14 +57,12 @@ function App() {
     );
   }
 
-  //  abrir modal de edição
   function handleEditar(id: number) {
     const material = materiais.find((m) => m.id === id) ?? null;
     setMaterialEditando(material);
     setModalVisivel(true);
   }
 
-  // adicionar novo material ou salvar edição
   function handleAdicionarMaterial(dados: Omit<IMaterial, 'id' | 'statusEstoque'>) {
     if (materialEditando) {
       setMateriais((prev) =>
@@ -84,6 +76,7 @@ function App() {
       setModalVisivel(false);
       return;
     }
+
     const novoId = materiais.length > 0 ? Math.max(...materiais.map((m) => m.id)) + 1 : 1;
     const novoMaterial: IMaterial = {
       ...dados,
@@ -95,11 +88,12 @@ function App() {
   }
 
   return (
-    <div className="app-wrapper">
+    <div className="d-flex flex-column min-vh-100">
       <Navbar />
 
-      <div className="container-fluid px-0">
-        <div className="row g-0 layout-principal">
+      <div className="container-fluid flex-grow-1 px-0">
+        <div className="row g-0 h-100">
+
           <div className="col-12 col-md-3">
             <FiltroSidebar
               filtroAtivo={filtroAtivo}
@@ -109,7 +103,8 @@ function App() {
           </div>
 
           <div className="col-12 col-md-9">
-            <main className="conteudo-principal">
+            <main className="p-4">
+
               {filtroAtivo === 'todos' && (
                 <Dashboard
                   totalMateriais={totalMateriais}
@@ -119,45 +114,44 @@ function App() {
                 />
               )}
 
-              <section className="lista-materiais-section">
-                <div className="busca-wrapper">
-                  <input
-                    type="text"
-                    className="input-custom input-busca"
-                    placeholder="Buscar por nome..."
-                    value={busca}
-                    onChange={(e) => setBusca(e.target.value)}
-                  />
-                </div>
-                <div className="lista-materiais-header">
-                  <h2 className="lista-titulo">
-                    {filtroAtivo === 'todos' ? 'Todos os materiais' : `${filtroAtivo.charAt(0).toUpperCase() + filtroAtivo.slice(1)}s`}
-                  </h2>
-                  <span className="lista-contagem">{materiaisFiltrados.length} ite{materiaisFiltrados.length === 1 ? 'm' : 'ns'}</span>
-                </div>
+              <div className="mb-3">
+                <input
+                  type="text"
+                  className="form-control"
+                  style={{ maxWidth: '320px' }}
+                  placeholder="Buscar por nome..."
+                  value={busca}
+                  onChange={(e) => setBusca(e.target.value)}
+                />
+              </div>
 
-                {materiaisFiltrados.length === 0 ? (
-                  <div className="lista-vazia">
-                    <i className="bi bi-inbox display-4"></i>
-                    <p>Nenhum material encontrado para este filtro.</p>
-                  </div>
-                ) : (
-                  <div className="row g-3">
-                    {materiaisFiltrados.map((material) => (
-                      <div key={material.id} className="col-12 col-sm-6 col-xl-4">
-                        <CardMaterial
-                          material={material}
-                          onUsarMaterial={handleUsarMaterial}
-                          onReporEstoque={handleReporEstoque}
-                          onEditar={handleEditar}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </section>
+              <div className="d-flex align-items-center gap-2 mb-3">
+                <h5 className="mb-0">
+                  {filtroAtivo === 'todos' ? 'Todos os materiais' : `${filtroAtivo.charAt(0).toUpperCase() + filtroAtivo.slice(1)}s`}
+                </h5>
+                <span className="badge bg-secondary">{materiaisFiltrados.length}</span>
+              </div>
+
+              {materiaisFiltrados.length === 0 ? (
+                <p className="text-muted">Nenhum material encontrado.</p>
+              ) : (
+                <div className="row g-3">
+                  {materiaisFiltrados.map((material) => (
+                    <div key={material.id} className="col-12 col-sm-6 col-xl-4">
+                      <CardMaterial
+                        material={material}
+                        onUsarMaterial={handleUsarMaterial}
+                        onReporEstoque={handleReporEstoque}
+                        onEditar={handleEditar}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
             </main>
           </div>
+
         </div>
       </div>
 
