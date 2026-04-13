@@ -7,7 +7,6 @@ const estadoInicial: IFormNovoMaterial = {
   cor: '',
   quantidade: 0,
   quantidadeMinima: 0,
-  unidade: 'gramas',
   marca: '',
 };
 

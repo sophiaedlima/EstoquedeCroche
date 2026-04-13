@@ -34,13 +34,14 @@ function App() {
     .filter((m) => filtroAtivo === 'todos' || m.tipo === filtroAtivo)
     .filter((m) => m.nome.toLowerCase().includes(busca.toLowerCase()));
 
+
   // Contadores do Dashboard
   const totalMateriais = materiais.length;
   const totalOk = materiais.filter((m) => m.statusEstoque === 'ok').length;
   const totalBaixoEstoque = materiais.filter((m) => m.statusEstoque === 'baixo').length;
   const totalEsgotados = materiais.filter((m) => m.statusEstoque === 'esgotado').length;
 
-  // Ação: usar material (reduz 1 unidade/grama do estoque)
+  // usar material (reduz 1 unidade do estoque)
   function handleUsarMaterial(id: number) {
     setMateriais((prev) =>
       prev.map((m) => {
@@ -51,7 +52,7 @@ function App() {
     );
   }
 
-  // Ação: repor estoque (adiciona 200g/unidades)
+  // repor estoque (adiciona unidades)
   function handleReporEstoque(id: number) {
     setMateriais((prev) =>
       prev.map((m) => {
@@ -62,14 +63,14 @@ function App() {
     );
   }
 
-  // Ação: abrir modal de edição
+  //  abrir modal de edição
   function handleEditar(id: number) {
     const material = materiais.find((m) => m.id === id) ?? null;
     setMaterialEditando(material);
     setModalVisivel(true);
   }
 
-  // Ação: adicionar novo material ou salvar edição
+  // adicionar novo material ou salvar edição
   function handleAdicionarMaterial(dados: Omit<IMaterial, 'id' | 'statusEstoque'>) {
     if (materialEditando) {
       setMateriais((prev) =>

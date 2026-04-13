@@ -5,7 +5,7 @@ export type TipoMaterial = 'fio' | 'agulha' | 'acessorio' | 'utensilio';
 export type StatusEstoque = 'ok' | 'baixo' | 'esgotado';
 
 // Unidade de medida do material
-export type UnidadeMedida = 'gramas' | 'unidade';
+export type UnidadeMedida = 'unidade';
 
 // Interface principal de um material de crochê
 export interface IMaterial {
