@@ -1,4 +1,4 @@
-# CrochêStock
+# Estoque de Croche
 
 Aplicação web de gerenciamento de estoque de materiais de crochê, feita com React, TypeScript, Vite e Bootstrap.
 
