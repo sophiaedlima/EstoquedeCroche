@@ -23,6 +23,7 @@ export interface IMaterial {
   metrosPorNovelo?: number;
   codigoCor?: string;
   lote?: string;
+  historico?: IHistoricoUso[];
 }
 
 // Interface para as props do card de material
@@ -69,4 +70,23 @@ export interface IFormNovoMaterial {
   metrosPorNovelo?: number;
   codigoCor?: string;
   lote?: string;
+}
+
+// Interface para um registro do histórico de uso
+export interface IHistoricoUso {
+  id: number;
+  data: string;
+  peca: string;
+  fioRestante: number;
+  agulhaUsada: string;
+  acessorioUsado: string;
+  imagem: string;
+}
+
+// Interface para as props do modal de histórico
+export interface IModalHistoricoProps {
+  material: IMaterial | null;
+  materiais: IMaterial[];
+  onFechar: () => void;
+  onAdicionarRegistro: (id: number, registro: Omit<IHistoricoUso, 'id'>) => void;
 }
