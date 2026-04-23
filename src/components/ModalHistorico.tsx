@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { IModalHistoricoProps, IHistoricoUso } from '../types/tipos';
+import { IModalHistoricoProps } from '../types/tipos';
 
 const estadoInicial = {
   data: new Date().toISOString().split('T')[0],
@@ -37,7 +37,7 @@ export function ModalHistorico({ material, materiais, onFechar, onAdicionarRegis
 
   function handleSalvar() {
     if (!form.peca.trim()) return;
-    onAdicionarRegistro(material.id, {
+    onAdicionarRegistro(material!.id, {
       data: form.data,
       peca: form.peca,
       fioRestante: Number(form.fioRestante),
